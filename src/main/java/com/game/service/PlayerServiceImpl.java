@@ -3,7 +3,7 @@ package com.game.service;
 import com.game.controller.PlayerOrder;
 import com.game.entity.Profession;
 import com.game.entity.Race;
-import com.game.model.Player;
+import com.game.entity.Player;
 import com.game.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -44,6 +44,15 @@ public class PlayerServiceImpl implements PlayerService{
                 (Integer) attributes[7], (Integer) attributes[8], pageable);
     }
 
+    @Override
+    public Integer getCount(HttpServletRequest request) {
+        Object[] attributes = getParameterOfPlayer(request);
+
+        return repository.getCount((String) attributes[0], (String) attributes[1], (Race) attributes[2],
+                (Profession) attributes[3], (Date) attributes[4], (Integer) attributes[5], (Integer) attributes[6],
+                (Integer) attributes[7], (Integer) attributes[8]);
+    }
+
     private static Object[] getParameterOfPlayer(HttpServletRequest request) {
         Object[] result = new Object[9];
 
@@ -67,13 +76,6 @@ public class PlayerServiceImpl implements PlayerService{
         return result;
     }
 
-
-
-    @Override
-    public Integer getCount(HttpServletRequest request) {
-        return null;
-    }
-
     @Override
     public Player addShip(Player player) {
         return null;
@@ -91,6 +93,10 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public void delete(Long id) {
+
+    }
+
+    public static void main(String[] args) {
 
     }
 }

@@ -1,7 +1,4 @@
-package com.game.model;
-
-import com.game.entity.Profession;
-import com.game.entity.Race;
+package com.game.entity;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -139,4 +136,5 @@ public class Player {
     public void setUntilNextLevel(Integer untilNextLevel) {
         this.untilNextLevel = untilNextLevel;
     }
+
 }

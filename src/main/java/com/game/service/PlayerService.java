@@ -1,6 +1,6 @@
 package com.game.service;
 
-import com.game.model.Player;
+import com.game.entity.Player;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

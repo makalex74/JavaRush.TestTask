@@ -1,7 +1,6 @@
 package com.game.controller;
 
-import com.game.model.Player;
-import com.game.service.PlayerService;
+import com.game.entity.Player;
 import com.game.service.PlayerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +15,11 @@ public class PlayerController {
 
     private final PlayerServiceImpl service;
 
+    @Autowired
+    public PlayerController(PlayerServiceImpl service) {
+        this.service = service;
+    }
+
     //GETTING ALL
     @GetMapping("/rest/players")
     @ResponseBody
@@ -23,8 +27,10 @@ public class PlayerController {
         return service.findAll(request);
     }
 
-    @Autowired
-    public PlayerController(PlayerServiceImpl service) {
-        this.service = service;
+    //GETTING COUNT
+    @GetMapping("/rest/players/count")
+    @ResponseBody
+    public Integer getCount(HttpServletRequest request) {
+        return service.getCount(request);
     }
 }
