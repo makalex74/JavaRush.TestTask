@@ -13,43 +13,53 @@ import java.util.List;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
-    @Query("Select p from Player p where (:name is null or p.name LIKE %:name%) " +
-            "and (:title is null or p.title LIKE %:title%) " +
-            "and (:race is null or p.race = :race)" +
-            "and (:profession is null or p.profession = :profession)" +
-            "and (:birthday is null or p.birthday >= :birthday) " +
-            "and (:banned is null or p.banned = :banned)" +
-            "and (:experience is null or p.experience = :experience)" +
-            "and (:level is null or p.level = :level)" +
-            "and (:untilNextLevel is null or p.untilNextLevel <= :untilNextLevel)")
-    List<Player> getAll(@Param("name") String name,
-                        @Param("title") String title,
-                        @Param("race") Race race,
-                        @Param("profession") Profession profession,
-                        @Param("birthday") Date birthday,
-                        @Param("banned") Integer banned,
-                        @Param("experience") Integer experience,
-                        @Param("level") Integer level,
-                        @Param("untilNextLevel") Integer untilNextLevel,
-                        Pageable pageable);
 
-    @Query("Select count(p) from Player p where (:name is null or p.name LIKE %:name%) " +
+    @Query(value = "Select p from Player p where " +
+            "(:name is null or p.name LIKE %:name%) " +
             "and (:title is null or p.title LIKE %:title%) " +
             "and (:race is null or p.race = :race)" +
             "and (:profession is null or p.profession = :profession)" +
-            "and (:birthday is null or p.birthday >= :birthday) " +
+            "and (:after is null or p.birthday >= :after) " +
+            "and (:before is null or p.birthday <= :before) " +
             "and (:banned is null or p.banned = :banned)" +
-            "and (:experience is null or p.experience = :experience)" +
-            "and (:level is null or p.level = :level)" +
-            "and (:untilNextLevel is null or p.untilNextLevel <= :untilNextLevel)")
+            "and (:minExperience is null or p.experience >= :minExperience) " +
+            "and (:maxExperience is null or p.experience <= :maxExperience) " +
+            "and (:minLevel is null or p.level >= :minLevel) " +
+            "and (:maxLevel is null or p.level <= :maxLevel) ")
+    List<Player> find(Pageable pageable,
+                      @Param("name") String name,
+                      @Param("title") String title,
+                      @Param("race") Race race,
+                      @Param("profession") Profession profession,
+                      @Param("after") Date after,
+                      @Param("before") Date before,
+                      @Param("banned") Boolean banned,
+                      @Param("minExperience") Integer minExperience,
+                      @Param("maxExperience") Integer maxExperience,
+                      @Param("minLevel") Integer minLevel,
+                      @Param("maxLevel") Integer maxLevel);
+
+    @Query("Select count(p) from Player p where " +
+            "(:name is null or p.name LIKE %:name%) " +
+            "and (:title is null or p.title LIKE %:title%) " +
+            "and (:race is null or p.race = :race)" +
+            "and (:profession is null or p.profession = :profession)" +
+            "and (:after is null or p.birthday >= :after) " +
+            "and (:before is null or p.birthday <= :before) " +
+            "and (:banned is null or p.banned = :banned)" +
+            "and (:minExperience is null or p.experience >= :minExperience) " +
+            "and (:maxExperience is null or p.experience <= :maxExperience) " +
+            "and (:minLevel is null or p.level >= :minLevel) " +
+            "and (:maxLevel is null or p.level <= :maxLevel) ")
     Integer getCount(@Param("name") String name,
-                        @Param("title") String title,
-                        @Param("race") Race race,
-                        @Param("profession") Profession profession,
-                        @Param("birthday") Date birthday,
-                        @Param("banned") Integer banned,
-                        @Param("experience") Integer experience,
-                        @Param("level") Integer level,
-                        @Param("untilNextLevel") Integer untilNextLevel);
-
+                     @Param("title") String title,
+                     @Param("race") Race race,
+                     @Param("profession") Profession profession,
+                     @Param("after") Date after,
+                     @Param("before") Date before,
+                     @Param("banned") Boolean banned,
+                     @Param("minExperience") Integer minExperience,
+                     @Param("maxExperience") Integer maxExperience,
+                     @Param("minLevel") Integer minLevel,
+                     @Param("maxLevel") Integer maxLevel);
 }

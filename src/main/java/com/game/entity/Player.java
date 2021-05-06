@@ -31,7 +31,7 @@ public class Player {
     private Date birthday;
 
     @Column(name = "banned")
-    private Integer banned;
+    private Boolean banned;
 
     @Column(name = "experience")
     private Integer experience;
@@ -45,7 +45,7 @@ public class Player {
     public Player() {
     }
 
-    public Player(String name, String title, Race race, Profession profession, Date birthday, Integer banned, Integer experience, Integer level, Integer untilNextLevel) {
+    public Player(String name, String title, Race race, Profession profession, Date birthday, Boolean banned, Integer experience, Integer level, Integer untilNextLevel) {
         this.name = name;
         this.title = title;
         this.race = race;
@@ -105,11 +105,11 @@ public class Player {
         this.birthday = birthday;
     }
 
-    public Integer getBanned() {
+    public Boolean getBanned() {
         return banned;
     }
 
-    public void setBanned(Integer banned) {
+    public void setBanned(Boolean banned) {
         this.banned = banned;
     }
 
