@@ -97,8 +97,7 @@ public class PlayerController {
                 && player.getRace() != null
                 && player.getProfession() != null
                 && player.getBirthday() != null && isDateValid(player.getBirthday())
-                && player.getExperience() != null
-                && player.getLevel() != null
+                && (player.getExperience() != null) && (player.getExperience() >=0) && (player.getExperience() <= 10000000)
         ) {
             if (player.getBanned() == null) player.setBanned(false);
             return new ResponseEntity<>(service.createPlayer(player), HttpStatus.OK);
@@ -108,11 +107,11 @@ public class PlayerController {
 
     private boolean isDateValid(Date date) {
         Calendar calendar1 = Calendar.getInstance();
-        calendar1.set(Calendar.YEAR, 2800);
+        calendar1.set(Calendar.YEAR, 2000);
         Date from = calendar1.getTime();
 
         Calendar calendar2 = Calendar.getInstance();
-        calendar2.set(Calendar.YEAR, 3019);
+        calendar2.set(Calendar.YEAR, 3000);
         Date to = calendar2.getTime();
 
         return date.getTime() > 0 && date.after(from) && date.before(to);

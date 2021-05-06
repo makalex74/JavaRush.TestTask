@@ -5,17 +5,13 @@ import com.game.entity.Profession;
 import com.game.entity.Race;
 import com.game.entity.Player;
 import com.game.repository.PlayerRepository;
+import com.google.protobuf.Internal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -99,9 +95,11 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     private void calculateAndSetLevel(Player player) {
-        Integer level = 0;
-        player.setLevel(level);
-        Integer untilNextLevel = 0;
+        Integer exp = player.getExperience();
+        Double lvlDouble = (Math.sqrt(2500 + 200 * exp) - 50) / 100;
+        Integer lvl = lvlDouble.intValue();
+        player.setLevel(lvl);
+        Integer untilNextLevel = 50 * (lvl + 1) * (lvl + 2) - exp;
         player.setUntilNextLevel(untilNextLevel);
     }
 
