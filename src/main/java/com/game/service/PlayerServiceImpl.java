@@ -109,16 +109,26 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public Player update(Player player) {
-        return null;
+    public Player updatePlayer(Long id, Player newPlayer) {
+        Player oldPlayer = repository.findById(id).orElse(null);
+
+        if (oldPlayer != null) {
+            if (newPlayer.getName() != null) oldPlayer.setName(newPlayer.getName());
+            if (newPlayer.getTitle() != null) oldPlayer.setTitle(newPlayer.getTitle());
+            if (newPlayer.getRace() != null) oldPlayer.setRace(newPlayer.getRace());
+            if (newPlayer.getProfession() != null) oldPlayer.setProfession(newPlayer.getProfession());
+            if (newPlayer.getBirthday() != null) oldPlayer.setBirthday(newPlayer.getBirthday());
+            if (newPlayer.getExperience() != null) oldPlayer.setExperience(newPlayer.getExperience());
+
+            calculateAndSetLevel(oldPlayer);
+            repository.save(oldPlayer);
+        }
+        return oldPlayer;
     }
 
     @Override
-    public void delete(Long id) {
-
+    public void deletePlayer(Long id) {
+        repository.deleteById(id);
     }
 
-    public static void main(String[] args) {
-
-    }
 }

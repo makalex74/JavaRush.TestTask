@@ -43,7 +43,7 @@ public interface PlayerService {
 
     Player getPlayerById(Long id);
 
-    Player update(Player player);
+    Player updatePlayer(Long id, Player newPlayer);
 
-    void delete(Long id);
+    void deletePlayer(Long id);
 }
