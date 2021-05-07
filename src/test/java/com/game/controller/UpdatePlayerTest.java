@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.util.AssertionErrors.assertNotEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -54,7 +55,7 @@ public class UpdatePlayerTest extends AbstractTest {
     public void updatePlayerInvalidBirthdayTest() throws Exception {
         PlayerInfoTest playerInfoTest = testsHelper.getPlayerInfosById(1);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/rest/players/" + playerInfoTest.id)
+        mockMvc.perform(post("/rest/players/" + playerInfoTest.id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(TestsHelper.NEGATIVE_BIRTHDAY_JSON))
                 .andExpect(status().isBadRequest());
