@@ -91,36 +91,36 @@ public class PlayerController {
 
     @PostMapping("/players")
     public ResponseEntity<Player> addPlayer(@RequestBody Player player) {
-        if (player != null
-                && player.getName() != null && (!player.getName().isEmpty()) && (player.getName().length() <= 12)
-                && player.getTitle() != null && (!player.getTitle().isEmpty()) && (player.getTitle().length() <= 30)
-                && player.getRace() != null
-                && player.getProfession() != null
-                && player.getBirthday() != null && isDateValid(player.getBirthday())
-                && (player.getExperience() != null) && (player.getExperience() >= 0) && (player.getExperience() <= 10000000)
-        ) {
+        if (isInvalid(player))
+         {
             if (player.getBanned() == null) player.setBanned(false);
             return new ResponseEntity<>(service.createPlayer(player), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    private boolean isInvalid(Player player) {
+        return player != null
+                && (player.getName() != null) && (!player.getName().isEmpty()) && (player.getName().length() <= 12)
+                && (player.getTitle() != null) && (!player.getTitle().isEmpty()) && (player.getTitle().length() <= 30)
+                && (player.getRace() != null)
+                && (player.getProfession() != null)
+                && (player.getBirthday() != null) && isDateValid(player.getBirthday())
+                && (player.getExperience() != null) && (player.getExperience() >= 0) && (player.getExperience() <= 10000000);
+    }
+
     @PostMapping("/players/{id}")
     public ResponseEntity<Player> updatePlayer(@PathVariable("id") Long id, @RequestBody Player player) {
-        if ((id == null) || (id <= 0) || (player == null)
-                || !(player.getName() != null && (!player.getName().isEmpty()) && (player.getName().length() <= 12))
-                || !(player.getTitle() != null && (!player.getTitle().isEmpty()) && (player.getTitle().length() <= 30))
-                || !(player.getRace() != null)
-                || !(player.getProfession() != null)
-                || !(player.getBirthday() != null && isDateValid(player.getBirthday()))
-                || !((player.getExperience() != null) && (player.getExperience() >= 0) && (player.getExperience() <= 10000000))
-        ) {
+        if (id == null || id <= 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Player updatePlayer = service.updatePlayer(id, player);
+        if (service.getPlayerById(id) != null) {
+            Player updatePlayer = service.updatePlayer(id, player);
+            return new ResponseEntity<>(updatePlayer, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        return updatePlayer == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
-                : new ResponseEntity<>(updatePlayer, HttpStatus.OK);
     }
 
     @DeleteMapping("/players/{id}")

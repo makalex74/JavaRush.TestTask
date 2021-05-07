@@ -2,6 +2,7 @@ package com.game.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 
 @Entity
@@ -137,4 +138,16 @@ public class Player {
         this.untilNextLevel = untilNextLevel;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(id, player.id) && Objects.equals(name, player.name) && Objects.equals(title, player.title) && race == player.race && profession == player.profession && Objects.equals(birthday, player.birthday) && Objects.equals(banned, player.banned) && Objects.equals(experience, player.experience) && Objects.equals(level, player.level) && Objects.equals(untilNextLevel, player.untilNextLevel);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, title, race, profession, birthday, banned, experience, level, untilNextLevel);
+    }
 }
